@@ -9,7 +9,7 @@ server.route({
     method: "GET", 
     path: "/",
     handler: function(request,reply){
-        reply.view("test");
+        reply.view("landing");
     }
 })
 
@@ -21,4 +21,18 @@ server.views({
     relativeTo: __dirname,
     path: "views"
 })
+});
+
+server.register(require("inert"), function(err){
+
+});
+
+server.route({
+    method: "GET",
+    path: "/{param*}",
+    handler: {
+        directory: {
+            path: "public"
+        }
+    }
 });
