@@ -7,12 +7,12 @@
                 <h2>Sign Up&nbsp</h2>
                 <input type="text" id="name" name="name" placeholder="Name">
                 <input type="text" id="email" name="email" placeholder="Email Address">
-                <input type="text" id="password" name="password" placeholder="password">
+                <input type="password" id="password" name="password" placeholder="password">
                 <input id="register_user" type="button" value="Register">
             </form>
             </div>
             <div id="sign_in_div">
-            <form id="sign_up_form">
+            <form id="sign_in_form">
                 <h2>Sign In</h2>
                 <input type="text" id="usr_email" name="email" placeholder="Email Address">
                 <input type="text" id="usr_password" name="password" placeholder="Password">
@@ -20,4 +20,33 @@
             </form>
         </div>
     </body>
+    <script>
+        $("#register_user").on("click", function(){
+            $.ajax({
+                method: "POST",
+                url: "/sign_up",
+                data: $("#sign_up_form").serialize(),
+                success: function(){
+                    
+                },
+                error: function(err){
+                    $("#name,#email,#password").val("");
+                }
+            });
+        })
+
+        $("#sign_in_user").on("click",function(){
+            $.ajax({
+                url: "/login",
+                method: "POST",
+                data: $("#sign_in_form").serialize(),
+                success: function(){
+
+                },
+                error: function(err){
+
+                }
+            })
+        })
+    </script>
 </html>

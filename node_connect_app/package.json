@@ -11,7 +11,10 @@
   "dependencies": {
     "ejs": "^2.4.2",
     "hapi": "^13.4.1",
+    "hapi-auth-cookie": "^6.1.1",
     "inert": "^4.0.0",
+    "mongoose": "^4.5.10",
+    "shortid": "^2.2.15",
     "vision": "^4.1.0"
   }
 }

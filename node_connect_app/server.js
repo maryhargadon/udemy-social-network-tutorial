@@ -1,5 +1,8 @@
 const Hapi = require("hapi");
 const server = new Hapi.Server();
+const mongoose = require("mongoose");
+const User = require("./database_models/user_model");
+const node_connect_db = mongoose.connect("mongodb://localhost/node_connect");
 
 server.connection({port:3000});
 
@@ -27,6 +30,21 @@ server.register(require("inert"), function(err){
 
 });
 
+server.register(require("hapi-auth-cookie"));
+server.auth.strategy("simple-cookie-strategy", "cookie",{
+    cookie: "node_connect_cookie",
+    password: "abcdefghabcdefghabcdefghabcdefgh",
+    isSecure: false
+})
+
+server.register({
+    register: require("./routes/user")
+}, function(err){
+    if(err){
+    return;
+}
+});
+
 server.route({
     method: "GET",
     path: "/{param*}",
@@ -36,3 +54,4 @@ server.route({
         }
     }
 });
+
