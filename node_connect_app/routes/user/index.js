@@ -35,8 +35,18 @@ module.exports.register = function(server, options, next){
                     if(valid_user){
                         request.cookieAuth.set({"user": valid_user.email, "member_id": valid_user.member_id, "name": valid_user.name});
                         reply();
+                    }else{
+                        reply().code(400);
                     }
                 })
+            }
+        },
+        {
+            method: "POST",
+            path: "/logout",
+            handler: function(request,reply){
+                request.cookieAuth.clear();
+                reply();
             }
         }
     ])

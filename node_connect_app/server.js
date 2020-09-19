@@ -45,6 +45,14 @@ server.register({
 }
 });
 
+server.register({
+    register: require("./routes/home")
+}, function(err){
+    if(err){
+        return;
+    }
+});
+
 server.route({
     method: "GET",
     path: "/{param*}",
@@ -55,3 +63,12 @@ server.route({
     }
 });
 
+server.route({
+    method: "GET",
+    path: "/user_profile_images/{param}",
+    handler: {
+        directory: {
+            path: "user_profile_images"
+        }
+    }
+})
