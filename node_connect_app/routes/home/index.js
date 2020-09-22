@@ -14,7 +14,7 @@ module.exports.register = function(plugin,options,next){
                 UserStatus.find({}, function (err,statuses){
                     user_statuses = statuses;
                     console.log("user_statuses",user_statuses);
-                reply.view("home",{name: name, user_statuses: user_statuses});
+                    reply.view("home",{name: name, user_statuses: user_statuses});
             })
             }
         }
@@ -30,7 +30,7 @@ module.exports.register = function(plugin,options,next){
                                                       "user_status": request.payload.user_status,
                                                       "name": request.auth.credentials.name,
                                                       "profile_pic": user.user_profile[0].profile_pic
-                                                    })
+                                                    });
                 user_status.save(function(err,result){
                     if(err){
                         reply().code(400);

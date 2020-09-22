@@ -10,7 +10,6 @@
                 <%user_statuses.forEach(function(user_status){%>
                 <li class="clearfix">
                     <img src="http://localhost:3000/user_profile_images/<%=user_status.profile_pic%>">
-                    
                     <div class="poster_name">
                         <%=user_status.name%>
                     </div>
@@ -35,7 +34,8 @@
                 contentType: "application/json",
                 data: JSON.stringify({"user_status": status_val}),
                 success: function(saved_status){
-
+                    $(".user_statuses").append("<li class='clearfix'><img src='http://localhost:3000/user_profile_images/'" + saved_status.profile_pic +
+                        "'><div class='poster_name'>" + saved_status.name + "</div><p>" + status_val + "</p></li>");
                 },
                 err: function(){
                     
