@@ -1,0 +1,68 @@
+<html>
+    <%include partials/header%>
+    <body>
+        <%include partials/logout%> 
+        <button id="edit_profile_button" type="button">Edit</button>
+        <h1 id="profile_header">Profile</h1>
+        <div id="user_profile_div">
+            <div class="profile_info" id="profile_picture_div">
+                <h2>Name:<%=user.name%></h2>
+                <h4>Location:<%user.user_profile[0].location%></h4>
+                <img src="http://localhost:3000/user_profile_images/<%=user.user_profile[0].profile_pic%>">
+            </div>
+            <div class="profile_info" id="about_me">
+                <h3>About Me</h3>
+                <p><%=user.user_profile[0].description%></p>
+            </div>
+            <div class="profile_info" id="interests">
+                <h3>Interests</h3>
+                <p><%=user.user_profile[0].interests%></p>
+            </div>
+        </div>
+        <div style="display:none" id="edit_profile_form_container">
+            <form id="edit_profile_form">
+                <ul>
+                    <li>
+                        <label for="name">Name</label>
+                        <input type="text" name="name" value="<%=user.name%>">
+                    </li>
+                    <li>
+                        <label for="location">Location</label>
+                        <input type="text" name="location" value="<%=user.user_profile[0].location%>">
+                    </li>
+                    <li>
+                        <label for="description">Description</label>
+                        <textarea rows="4" cols="30"  name="description"><%=user.user_profile[0].description%></textarea>
+                    </li>
+                    <li>
+                        <label for="Interests">Interests</label>
+                        <textarea rows="4" cols="30" name="interests"><%=user.user_profile[0].interests%></textarea>
+                    </li>
+                </ul>
+                <button id="save_profile_button" type="button">Save</button>
+                <button id="cancel_edit_profile" type="button">Cancel</button>
+            </form>
+        </div>
+    </body>
+    <script>
+        $("#save_profile_button").on("click", function(){
+            $.ajax({
+                method: "POST",
+                url: "/user_profile?edit",
+                data: $("#edit_profile_form").serialize(),
+                success: function(){
+                    $("#edit_profile_form_container").hide();
+                }
+            })
+        })
+
+        $("#edit_profile_button").on("click", function(){
+            $("#edit_profile_form_container").show();
+        })
+
+        $("#edit_profile_button").on("click", function(){
+            $("#edit_profile_form_container").hide();
+        })
+        
+    </script>
+</html>
