@@ -3,6 +3,8 @@ const server = new Hapi.Server();
 const mongoose = require("mongoose");
 const User = require("./database_models/user_model");
 const node_connect_db = mongoose.connect("mongodb://localhost/node_connect");
+const io = require('socket.io')(app);
+var app = require('http');
 
 server.connection({port:3000});
 
@@ -61,6 +63,14 @@ server.register({
     }
 });
 
+server.register({
+    register: require("./routes/friends")
+}, function(err){
+    if(err){
+        return;
+    }
+});
+
 server.route({
     method: "GET",
     path: "/{param*}",
@@ -79,4 +89,23 @@ server.route({
             path: "user_profile_images"
         }
     }
+})
+
+io.on("connection", function(socket){
+
+    socket.on("attach_user_info", function(user_info){
+        socket.member_id = user_info.member_id;
+        socket.user_name = user_info.user_name;
+    })
+
+    socket.on("message_from_client", function(user_msg){
+        var all_connected_clients = io.sockets.connected;
+        for(var socket_id in all_connected_clients){
+            if(all_connected_clients[socket_id].member_id === user_msg.friend_member_id){
+                var message_object = {"msg": user_msg.msg, "user_name": socket.user_name};
+                all_connected_clients[socket_id].emit("message_from_server", message_object);
+                break;
+            }
+        }
+    })
 })

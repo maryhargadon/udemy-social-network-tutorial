@@ -1,0 +1,16 @@
+<html>
+    <%include partials/header%>
+    <body>
+        <%include partials/logout%>
+        <h1>Find Friends</h1>
+        <%user_friends.forEach(function(friend){%>
+        <div class="potential_friend">
+            <div class="friend_profile_pic">
+                <img src="http://localhost:3000/user_profile_images/<%=friend.user_profile[0].profile_pic%>">
+            </div>
+            <h3><%=friend.name%></h3>
+            <button id="<%=friend.member_id%>" class="request_button" type="button">Send Friend Request</button>
+        </div>
+        <%})%>
+    </body>
+</html>
