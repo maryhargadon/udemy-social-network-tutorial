@@ -38,6 +38,10 @@
                         <label for="Interests">Interests</label>
                         <textarea rows="4" cols="30" name="interests"><%=user.user_profile[0].interests%></textarea>
                     </li>
+                    <li>
+                        <label for="Interests">Interests</label>
+                        <input id="upload_profile_pic" type="file" onchange="uploadProfileImage()">
+                    </li>
                 </ul>
                 <button id="save_profile_button" type="button">Save</button>
                 <button id="cancel_edit_profile" type="button">Cancel</button>
@@ -53,16 +57,38 @@
                 success: function(){
                     $("#edit_profile_form_container").hide();
                 }
-            })
-        })
+            });
+        });
 
         $("#edit_profile_button").on("click", function(){
             $("#edit_profile_form_container").show();
-        })
+        });
 
-        $("#edit_profile_button").on("click", function(){
+        $("#cancel_edit_profile").on("click", function(){
             $("#edit_profile_form_container").hide();
-        })
-        
+        });
+
+        function uploadProfileImage(){
+            var image_to_upload = $("#upload_profile_pic")[0].files[0];
+            console.log("image_to_upload",image_to_upload);
+            var reader = FileReader();
+            reader.readAsDataURL(image_to_upload);
+            reader.onload = function(){
+                console.log("result", reader.result);
+                var image_data = {"image_data": reader.result.split(",")[1], "image_type": image_to_upload.type.split("/")[1]};
+                $.ajax({
+                    method: "POST",
+                    url: "profile_pic/upload",
+                    data: JSON.stringify(image_data),
+                    contentType: "application/json",
+                    success: function(){
+                        $(".profile_info img").remove();
+                        $("#profile_picture_div").append("<img src=http://localhost:3000/user_profile_images/" + updated_profile_pic + ">");
+                    }
+                })
+            }
+
+        }
+
     </script>
 </html>
