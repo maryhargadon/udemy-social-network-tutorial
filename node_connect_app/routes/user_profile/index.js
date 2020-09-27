@@ -3,14 +3,14 @@ const shortid = require("shortid");
 const fs = require("fs");
 const UserStatus = require("../../database_models/user_status_model");
 
-exports.register = function(plugin,options,next){
+exports.register = function(plugin, options, next){
     plugin.route([
         {
             method: "GET",
             path: "/user_profile",
             config: {
                 auth: "simple-cookie-strategy",
-                handler: function(request,reply){
+                handler: function(request, reply){
                     User.findOne({"email": request.auth.credentials.user}, function(err,user){
                         reply.view("user_profile",{user: user});
                     });
