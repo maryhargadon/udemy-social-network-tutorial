@@ -2,8 +2,24 @@
     <%include partials/header%>
     <body>
         <%include partials/logout%> 
-        <button id="edit_profile_button" type="button">Edit</button>
+        <button id="edit_profile_button" type="button">Edit</button> --> -->
         <h1 id="profile_header">Profile</h1>
+         <div id="user_friends_list_section">
+            <h2>Friends</h2>
+            <ul>
+                <%user.friends.forEach(function(friend){%>
+                <li>
+                    <div id="<%=friend.member_id%>" class="user_friend_list">
+                        <div class="friend_profile_pic">
+                            <img src="http://localhost:3000/user_profile_images/<%=friend.profile_pic%>">
+                        </div>
+                        <span><%=friend.friend_name%></span><br>
+                        <button (onclick)="window.location.href='http://localhost:3000/user_profile/<%=friend.member_id%>'" type="button">Go to Profile</button>
+                    </div>
+                </li>
+            <%})%>
+            </ul>
+        </div>
         <div id="user_profile_div">
             <div class="profile_info" id="profile_picture_div">
                 <h2>Name:<%=user.name%></h2>
@@ -39,7 +55,7 @@
                         <textarea rows="4" cols="30" name="interests"><%=user.user_profile[0].interests%></textarea>
                     </li>
                     <li>
-                        <label for="Interests">Interests</label>
+                        <label for="profile_pic">Profile Pic</label>
                         <input id="upload_profile_pic" type="file" onchange="uploadProfileImage()">
                     </li>
                 </ul>
@@ -56,7 +72,7 @@
                         <div class="friend_request_pic">
                             <img src="http://localhost:3000/user_profile_images/<%=request.profile_pic%>">
                         </div>
-                        <span><%=request.name%></span><br>
+                        <span><%=request.friend_name%></span><br>
                         <button id="accept_friend_request" type="submit">Accept</button>
                     </div>
                 </li>
@@ -68,7 +84,7 @@
         $("#save_profile_button").on("click", function(){
             $.ajax({
                 method: "POST",
-                url: "/user_profile?edit",
+                url: "/user_profile/edit",
                 data: $("#edit_profile_form").serialize(),
                 success: function(){
                     $("#edit_profile_form_container").hide();
@@ -97,14 +113,26 @@
                     url: "profile_pic/upload",
                     data: JSON.stringify(image_data),
                     contentType: "application/json",
-                    success: function(){
+                    success: function(updated_profile_pic){
                         $(".profile_info img").remove();
                         $("#profile_picture_div").append("<img src=http://localhost:3000/user_profile_images/" + updated_profile_pic + ">");
                     }
-                })
+                });
             }
 
         }
 
+        $("#accept_friend_request").on("click", function(){
+            var friend_member_id = $(this).parent().attr("id");
+            $.ajax({
+                method: "POST",
+                url: "/accept_friend_request",
+                contentType: "application/json",
+                data: JSON.stringify({"member_id": friend_member_id}),
+                success: function(){
+                }
+            });
+        });
+
     </script>
-</html>
+</html> 
