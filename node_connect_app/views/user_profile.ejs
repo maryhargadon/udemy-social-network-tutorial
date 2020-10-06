@@ -2,7 +2,7 @@
     <%include partials/header%>
     <body>
         <%include partials/logout%> 
-        <button id="edit_profile_button" type="button">Edit</button> --> -->
+        <button id="edit_profile_button" type="button">Edit</button> 
         <h1 id="profile_header">Profile</h1>
          <div id="user_friends_list_section">
             <h2>Friends</h2>
@@ -15,6 +15,7 @@
                         </div>
                         <span><%=friend.friend_name%></span><br>
                         <button (onclick)="window.location.href='http://localhost:3000/user_profile/<%=friend.member_id%>'" type="button">Go to Profile</button>
+                        <button id="<%=friend.member_id%>" class="chat_button" type="button">Chat</button>
                     </div>
                 </li>
             <%})%>
@@ -79,6 +80,7 @@
             <%})%>
             </ul>
         </div>
+        <div id="chat_section_wrapper"></div>
     </body>
     <script>
         $("#save_profile_button").on("click", function(){
@@ -133,6 +135,27 @@
                 }
             });
         });
+
+        $(".chat_button").on("click", function(){
+            var chat_box = `<div class="chat_section">
+                                <div id="chat_title_section">
+                                    <span>Node Connect Chat</span>
+                                    <div class="chat_close">
+                                        <img src="http://localhost:3000/images/node_connect_close.png">
+                                        </div>
+                                    </div>
+                                    <div class="all_chat_messages">
+                                        </div>
+                                        <div id="send_message">
+                                            <input id="send_message_input" type="text" placeholder="Send Message">
+                                            </div>
+                            </div>`
+            $("#chat_section_wrapper").append(chat_box);
+        });
+
+        $(document).on("click",".chat_close", function(){
+            $(".chat_section").remove();
+        })
 
     </script>
 </html> 
