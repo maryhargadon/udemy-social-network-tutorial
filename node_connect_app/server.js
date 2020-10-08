@@ -3,10 +3,12 @@ const server = new Hapi.Server();
 const mongoose = require("mongoose");
 const User = require("./database_models/user_model");
 const node_connect_db = mongoose.connect("mongodb://localhost/node_connect");
-const io = require('socket.io')(app);
-var app = require('http');
+
+//var app = require('http');
 
 server.connection({port:3000});
+
+const io = require("socket.io")(server.listener);
 
 server.start(console.log("test"));
 
@@ -89,7 +91,7 @@ server.route({
             path: "user_profile_images"
         }
     }
-})
+});
 
 io.on("connection", function(socket){
 
@@ -108,4 +110,4 @@ io.on("connection", function(socket){
             }
         }
     })
-})
+});

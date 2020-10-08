@@ -83,6 +83,9 @@
         <div id="chat_section_wrapper"></div>
     </body>
     <script>
+
+        var socket = io;
+
         $("#save_profile_button").on("click", function(){
             $.ajax({
                 method: "POST",
