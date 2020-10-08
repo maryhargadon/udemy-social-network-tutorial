@@ -85,6 +85,7 @@
     <script>
 
         var socket = io;
+        socket.emit("attach_user_info", {"member_id": "<%=user.member_id%>", "user_name": "<%=user.name%>"});
 
         $("#save_profile_button").on("click", function(){
             $.ajax({
@@ -158,6 +159,31 @@
 
         $(document).on("click",".chat_close", function(){
             $(".chat_section").remove();
+        })
+
+        socket.on("message_from_server", function(received_msg){
+            $(".all_chat_messages").append("<div class='usr_msg'>" +
+                                            "<span class='user_with_message'>" + received_msg.user_name +"</span>" +
+                                            "<div class='usr_msg_box'>" +
+                                                "<p>" + received_msg.msg + "</p>" +
+                                                "</div" +
+                                                "</div>"
+                                            )
+        })
+
+        $(document).on("keypress","#send_message_input", function(e){
+            if(e.keyCode === 13){
+                var chat_message_content = $(this).val();
+                $(".all_char_messages").append("<div class='sur_msg'>" + 
+                                                "<span class='user_with_message'>You:</span>" +
+                                                "<div class='usr_msg_box'>" +
+                                                    "<p>" + chat_message_content + "</p>" +
+                                                    "</div>" +
+                                                    "</div>"
+                                                )
+                socket.emit("message_from_client", {"msg": chat_message_content, "friend_member_id": $(".chat_button").attr("id")})
+                $(this).val("");
+            }
         })
 
     </script>
