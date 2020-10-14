@@ -11,12 +11,12 @@ exports.register = function(plugin, options, next){
             config: {
                 auth: "simple-cookie-strategy",
                 handler: function(request, reply){
-                    User.findOne({"email": {$ne: request.auth.credentials.user}}, function(err,user){
-                        reply.view("user_profile", {user_profile: user});
+                    // User.findOne({"email": {$ne: request.auth.credentials.user}}, function(err,user){
+                    //     reply.view("user_profile", {user_profile: user});
+                    // });
+                    User.findOne({"email": request.auth.credentials.user}, function(err,user){
+                        reply.view("user_profile",{user: user});
                     });
-                    // User.findOne({"email": request.auth.credentials.user}, function(err,user){
-                    //     reply.view("user_profile",{user: user});
-                    //});
                 }
             }
          },

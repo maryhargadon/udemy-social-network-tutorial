@@ -30,7 +30,7 @@ module.exports.register = function(plugin,options,next){
                     var user_status = new UserStatus({"user_email": request.auth.credentials.user,
                                                       "user_status": request.payload.user_status,
                                                       "name": request.auth.credentials.name,
-                                                      //"profile_pic": user.user_profile[0].profile_pic
+                                                      "profile_pic": user.user_profile[0].profile_pic
                                                     });
                 console.log("new user status", user_status);
                 user_status.save(function(err,result){
