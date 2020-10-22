@@ -59,7 +59,7 @@ exports.register = function(plugin, options, next){
                                     if(err){
                                         reply().code(400);
                                     }else{
-                                        UserStatus.update({"user_email": request.auth.credentials.user}, {"profile_pic": user_profile_image}, {multi: true}, function(){
+                                        UserStatus.update({"user_email": request.auth.credentials.user}, {"profile_pic": user_profile_image}, {multi: true}, function(err, result){
                                             if(err){
                                             reply().code(400);
                                     }else{

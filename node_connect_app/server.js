@@ -93,6 +93,12 @@ server.route({
     }
 });
 
+// io.on("connection", function(socket){
+//     socket.on("message_from_client", function(usr_msg){
+//         socket.emit("message_from_server", "got the message");
+//     })
+// });
+
 io.on("connection", function(socket){
 
     socket.on("attach_user_info", function(user_info){
@@ -110,4 +116,6 @@ io.on("connection", function(socket){
             }
         }
     })
+
+    
 });
